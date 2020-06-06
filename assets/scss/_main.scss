@@ -253,13 +253,19 @@ body {
     @media (min-width: 1900px) {
       padding-left: 190px;
     }
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
   }
 
   &__title {
     font-size: 2.1em;
     font-weight: 600;
-    position: relative;
-    z-index: 10;
     padding-top: 4em;
 
     @media (min-width: 1900px) {
@@ -327,8 +333,6 @@ body {
   font-size: 1.2em;
   font-weight: normal;
   line-height: 1.5;
-  position: relative;
-  z-index: 10;
   padding-bottom: 16.85em;
 
   @media (min-width: 1900px) {
@@ -354,6 +358,7 @@ body {
   transition: 1s ease;
   width: 2555px;
   padding-top: 2555px;
+  cursor: url(../images/mouse.png), auto;
 
   @media (min-width: 1900px) {
     transform: translate(-70%, -50%);

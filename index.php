@@ -1,9 +1,7 @@
 <?php
-function siteURL()
-{
+function siteURL() {
     $protocol =  isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" . "://";
     $domainName = $_SERVER['HTTP_HOST'] . '/';
-
     return $protocol . $domainName;
 }
 

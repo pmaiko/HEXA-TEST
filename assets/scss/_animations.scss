@@ -24,3 +24,36 @@
     left: -100%;
   }
 }
+
+
+.fa-enter {
+  opacity: 0;
+}
+
+.fa-enter-active {
+  opacity: 1;
+  transition: 2s ease-in-out;
+}
+
+.fa-leave-active {
+  transition: .5s ease-in-out;
+  opacity: 0;
+}
+
+.slideUp-enter {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slideUp-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: .5s cubic-bezier(.17,.67,.83,.67);
+}
+
+.slideUp-leave-active {
+  transform: translateY(100%);
+  transition: .5s cubic-bezier(.17,.67,.83,.67);
+  opacity: 0;
+}
+

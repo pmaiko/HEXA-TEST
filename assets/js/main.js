@@ -1,5 +1,7 @@
 import 'core-js'
 
+let animationend = "transitionend";
+
 addEventListener('DOMContentLoaded', function () {
     const toggleMenu = document.querySelector('#toggleMenu');
     const dropDownMenu = document.querySelector('.drop-down-menu');
@@ -26,6 +28,7 @@ addEventListener('DOMContentLoaded', function () {
     let resizeTimeoutId;
     let currentId;
     let gDelta = 0;
+    let touchStart;
     let steps = [-200, -150, -100, -50, 0, 50, 100, 150, 200];
 
     if (timeLine && timeLineList && currentDate && currentDescription) {
@@ -58,10 +61,18 @@ addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        let handlerScroll = (e) => {
+        let handlerMoveTimeLine = (e) => {
             e.preventDefault();
-            let delta = e.deltaY || e.detail || e.wheelDelta;
-            gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta += delta;
+            let delta;
+
+            if (e.touches) {
+                delta = e.touches[0].clientX - touchStart;
+                gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta = -delta;
+
+            } else {
+                delta = e.deltaY || e.detail || e.wheelDelta;
+                gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta += delta;
+            }
 
             let handler = () => {
                 clearActive(timeLineList);
@@ -94,9 +105,8 @@ addEventListener('DOMContentLoaded', function () {
         };
 
         timeLine.addEventListener('mouseenter', function (e) {
-            console.log('mouseenter');
-
-            document.addEventListener('mousewheel', handlerScroll, {
+            console.log(1);
+            document.addEventListener('mousewheel', handlerMoveTimeLine, {
                 passive: false
             });
 
@@ -105,11 +115,15 @@ addEventListener('DOMContentLoaded', function () {
         });
 
         timeLine.addEventListener('mouseleave', function (e) {
-            console.log('mouseleave');
-            document.removeEventListener('mousewheel', handlerScroll, {
+            document.removeEventListener('mousewheel', handlerMoveTimeLine, {
                 passive: false
             });
         });
+
+        timeLine.addEventListener("touchmove", handlerMoveTimeLine, false);
+        timeLine.addEventListener("touchstart", (e) => {
+           touchStart =  e.touches[0].clientX + steps[currentId];
+        }, false);
 
         window.onresize = function () {
             clearTimeout(resizeTimeoutId);
@@ -123,10 +137,14 @@ addEventListener('DOMContentLoaded', function () {
 });
 
 function render({currentDate, currentDescription, date, description}) {
-    setTimeout(() => {
+
+    toggle(currentDate, 'slideUp', ()=> {
         currentDate.innerHTML = date;
+    });
+
+    toggle(currentDescription, 'fa', ()=> {
         currentDescription.innerHTML = description;
-    }, 1000);
+    });
 }
 
 function addActive(el) {
@@ -167,3 +185,43 @@ function getRotation(el) {
         return Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI));
     }
 }
+
+function toggle(el, name, callback) {
+    let clear = () => {
+        el.classList.remove(name + '-leave-active');
+        el.classList.remove(name + '-enter-active');
+        el.classList.remove(name + '-enter');
+    };
+    clear();
+
+    let handlerHide = function() {
+        el.removeEventListener(animationend, handlerHide);
+        clear();
+
+        callback();
+
+        let handlerShow = function() {
+            clear();
+            el.removeEventListener(animationend, handlerShow);
+        };
+
+        el.classList.add(name + '-enter');
+
+        raf(function() {
+            el.classList.add(name + '-enter-active');
+            el.addEventListener(animationend, handlerShow);
+        });
+    };
+
+    el.classList.add(name + '-leave-active');
+    el.addEventListener(animationend, handlerHide);
+}
+
+function raf(fn) {
+    window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(function() {
+            fn();
+        });
+    });
+}
+
