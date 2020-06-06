@@ -9,11 +9,11 @@ addEventListener('DOMContentLoaded', function () {
     if (toggleMenu && dropDownMenu) {
         toggleMenu.addEventListener('click', function () {
             if (dropDownMenu.style.display !== 'none') {
-                dropDownMenu.style.display = 'none';
+                hide(dropDownMenu, 'slideLeft');
                 toggleMenu.classList.add('icon--menu');
                 toggleMenu.classList.remove('icon--close');
             } else {
-                dropDownMenu.style.display = 'block';
+                show(dropDownMenu, 'slideLeft');
                 toggleMenu.classList.remove('icon--menu');
                 toggleMenu.classList.add('icon--close');
             }
@@ -142,7 +142,6 @@ addEventListener('DOMContentLoaded', function () {
 });
 
 function render({currentDate, currentDescription, date, description}) {
-
     toggle(currentDate, 'slideUp', ()=> {
         currentDate.innerHTML = date;
     });
@@ -220,6 +219,53 @@ function toggle(el, name, callback) {
 
     el.classList.add(name + '-leave-active');
     el.addEventListener(animationend, handlerHide);
+}
+
+function show(el, name, display) {
+    if (!display) {
+        display = 'block';
+    }
+
+    let clear = () => {
+        el.classList.remove(name + '-leave-active');
+        el.classList.remove(name + '-enter-active');
+        el.classList.remove(name + '-enter');
+    };
+    clear();
+
+    let handler = function() {
+        clear();
+        el.removeEventListener(animationend, handler);
+    };
+
+
+    el.style.display = display;
+    el.classList.add(name + '-enter');
+    raf(function() {
+        el.classList.add(name + '-enter-active');
+        el.addEventListener(animationend, handler);
+    });
+
+}
+
+function hide(el, name) {
+    let clear = () => {
+        el.classList.remove(name + '-leave-active');
+        el.classList.remove(name + '-enter-active');
+        el.classList.remove(name + '-enter');
+    };
+    clear();
+
+    let handler = function() {
+        el.style.display = 'none';
+        clear();
+        el.removeEventListener(animationend, handler);
+    };
+
+    raf(function () {
+        el.classList.add(name + '-leave-active');
+        el.addEventListener(animationend, handler);
+    });
 }
 
 function raf(fn) {
