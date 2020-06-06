@@ -169,7 +169,7 @@ function addRotate(el, rotate) {
     }
 
     else if (window.innerWidth <= 699) {
-        el.style.cssText = `transform: translate(-50%, -28%) rotate(${-rotate}deg);`;
+        el.style.cssText = `transform: translate(-50%, -30%) rotate(${-rotate}deg);`;
     }
 
     else if (window.innerWidth <= 991) {

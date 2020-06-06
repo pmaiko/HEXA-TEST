@@ -50,14 +50,14 @@
 
   .date-section {
     overflow: hidden;
-    padding-bottom: 280px;
+    padding-bottom: 200px;
 
     &:before {
       content: "";
       position: absolute;
       z-index: 20;
       width: 100%;
-      height: calc(100% - 280px);
+      height: calc(100% - 200px);
     }
 
     .wrap {
@@ -106,7 +106,7 @@
 
   .time-line {
     visibility: visible;
-    transform: translate(-50%, -28%);
+    transform: translate(-50%, -30%);
 
     &__items {
       transform: translate(-50%, -138%) rotate(-90deg);
