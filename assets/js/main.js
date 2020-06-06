@@ -63,15 +63,20 @@ addEventListener('DOMContentLoaded', function () {
 
         let handlerMoveTimeLine = (e) => {
             e.preventDefault();
-            let delta;
 
+            let delta;
             if (e.touches) {
                 delta = e.touches[0].clientX - touchStart;
                 gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta = -delta;
 
             } else {
                 delta = e.deltaY || e.detail || e.wheelDelta;
-                gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta += delta;
+                if (/Firefox/i.test(navigator.userAgent)) {
+                    gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta += delta * 8;
+                }
+                else {
+                    gDelta < steps[0] ? gDelta = steps[0] : gDelta > steps[timeLineList.length - 1] ? gDelta = steps[timeLineList.length - 1] : gDelta += delta;
+                }
             }
 
             let handler = () => {
@@ -106,7 +111,7 @@ addEventListener('DOMContentLoaded', function () {
 
         timeLine.addEventListener('mouseenter', function (e) {
             console.log(1);
-            document.addEventListener('mousewheel', handlerMoveTimeLine, {
+            document.addEventListener(/Firefox/i.test(navigator.userAgent) ? "wheel" : "mousewheel", handlerMoveTimeLine, {
                 passive: false
             });
 
@@ -115,7 +120,7 @@ addEventListener('DOMContentLoaded', function () {
         });
 
         timeLine.addEventListener('mouseleave', function (e) {
-            document.removeEventListener('mousewheel', handlerMoveTimeLine, {
+            document.removeEventListener(/Firefox/i.test(navigator.userAgent)? "wheel" : "mousewheel", handlerMoveTimeLine, {
                 passive: false
             });
         });
