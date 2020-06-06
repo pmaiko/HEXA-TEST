@@ -1,0 +1,16 @@
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .time-line {
+    visibility: visible;
+    width: 1955px;
+    padding-top: 1955px;
+  }
+
+  .current-date {
+    background: transparent;
+  }
+
+  .pointer {
+    visibility: hidden;
+    bottom: 1.6em;
+  }
+}

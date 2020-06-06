@@ -1,0 +1,174 @@
+@media (max-width: 699px) {
+  .drop-down-menu {
+    right: 0;
+    top: -30px;
+    left: auto;
+    transform: none;
+    overflow: auto;
+    width: 300px;
+    height: 100vh;
+  }
+
+  .header {
+    top: 0;
+    position: absolute;
+    padding: 30px 0;
+
+    .logo {
+      padding: 0 30px;
+    }
+
+    .icon {
+      padding: 0 30px;
+      box-sizing: content-box;
+    }
+  }
+
+  .article {
+    margin-top: 100px;
+    margin-bottom: 100px;
+
+    &__content {
+      padding: 0 30px;
+      br {
+        display: none;
+      }
+    }
+
+    &__title {
+      font-size: 20px;
+
+      br {
+        display: none;
+      }
+    }
+
+    &__description {
+      font-size: 12px;
+    }
+  }
+
+  .date-section {
+    overflow: hidden;
+    padding-top: 50px;
+    padding-bottom: 295px;
+
+    .wrap {
+      max-width: 250px;
+    }
+
+    &__content {
+      padding: 0 30px;
+    }
+
+    &__wrapper {
+      margin: 78px 0 15px;
+    }
+
+    .wrap {
+      padding: 0;
+    }
+
+    &__title {
+      font-size: 20px;
+
+      br {
+        display: none;
+      }
+    }
+  }
+
+  .pointer {
+    height: 8px;
+  }
+
+  .current-date {
+    font-size: 56px;
+    letter-spacing: 5px;
+  }
+
+  .current-description {
+    font-size: 11px;
+  }
+
+  .time-line {
+    visibility: visible;
+    transform: translate(-50%, -28%);
+
+    &__items {
+      transform: translate(-50%, -138%) rotate(-90deg);
+      left: 50%;
+    }
+
+    &__item {
+      margin-bottom: 32px;
+
+      &:nth-child(1) .btn-simple {
+        transform: rotate(-33deg);
+        left: -55px;
+      }
+
+      &:nth-child(2) .btn-simple {
+        transform: rotate(-25deg);
+        left: -30px;
+      }
+
+      &:nth-child(3) .btn-simple {
+        transform: rotate(-16deg);
+        left: -10px;
+      }
+
+      &:nth-child(4) .btn-simple {
+        transform: rotate(-8deg);
+        left: 2px;
+      }
+
+      &:nth-child(5) .btn-simple {
+        left: 5px;
+      }
+
+      &:nth-child(6) .btn-simple {
+        transform: rotate(8deg);
+        left: 2px;
+      }
+
+      &:nth-child(7) .btn-simple {
+        transform: rotate(15deg);
+        left: -7px;
+      }
+
+      &:nth-child(8) .btn-simple {
+        transform: rotate(23deg);
+        left: -24px;
+      }
+
+      &:nth-child(9) .btn-simple {
+        transform: rotate(32deg);
+        left: -50px;
+      }
+    }
+  }
+
+  .pointer {
+    &--horizontal {
+      display: block;
+    }
+
+    &--vertical {
+      visibility: hidden;
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: 8px;
+      height: 10.8em;
+      bottom: -10.8em;
+
+      //height: 80.8em;
+      //bottom: -80.8em;
+    }
+  }
+
+  .btn-simple {
+    font-size: 12px;
+  }
+}
