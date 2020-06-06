@@ -113,6 +113,10 @@ body {
     }
 
     @media (max-width: 1400px) {
+      width: 1074px;
+    }
+
+    @media (max-width: 1366px) {
       width: 850px;
     }
 
@@ -370,7 +374,7 @@ body {
   cursor: url(../images/mouse.png), auto;
 
   @media (min-width: 1900px) {
-    transform: translate(-70%, -50%);
+    transform: translate(-68%, -50%);
   }
 
   @media (max-width: 991px) {
@@ -560,6 +564,10 @@ body {
   top: -34px;
   width: 334px;
   background: rgba(255, 255, 255, 1);
+
+  @media (min-width: 1900px) {
+    width: 310px;
+  }
 
   &__list {
     list-style-type: none;

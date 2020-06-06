@@ -26,6 +26,7 @@ addEventListener('DOMContentLoaded', function () {
     const currentDescription = document.querySelector('.current-description');
     let scrollTimeoutId;
     let resizeTimeoutId;
+    let renderTimeoutId;
     let currentId;
     let gDelta = 0;
     let touchStart;
@@ -47,12 +48,15 @@ addEventListener('DOMContentLoaded', function () {
                 clearActive(timeLineList);
                 addActive(el.parentNode);
 
-                render({
-                    currentDate: currentDate,
-                    currentDescription: currentDescription,
-                    date: date,
-                    description: description
-                });
+                clearTimeout(renderTimeoutId);
+                renderTimeoutId = setTimeout(() => {
+                    render({
+                        currentDate: currentDate,
+                        currentDescription: currentDescription,
+                        date: date,
+                        description: description
+                    });
+                }, 1000)
             }
         });
         timeLineList.forEach(function (item, id) {
@@ -87,14 +91,16 @@ addEventListener('DOMContentLoaded', function () {
                 addActive(timeLineList[currentId]);
                 addRotate(timeLine, rotate);
 
-                render({
-                    currentDate: currentDate,
-                    currentDescription: currentDescription,
-                    date: timeLineList[currentId].querySelector('.btn-simple').getAttribute('data-date'),
-                    description: timeLineList[currentId].querySelector('.btn-simple').getAttribute('data-description')
-                });
+                clearTimeout(renderTimeoutId);
+                renderTimeoutId = setTimeout(() => {
+                    render({
+                        currentDate: currentDate,
+                        currentDescription: currentDescription,
+                        date: timeLineList[currentId].querySelector('.btn-simple').getAttribute('data-date'),
+                        description: timeLineList[currentId].querySelector('.btn-simple').getAttribute('data-description')
+                    });
+                }, 1000)
             };
-
             clearTimeout(scrollTimeoutId);
             scrollTimeoutId = setTimeout(() => {
                 if (gDelta >= steps[currentId + 1]) {
@@ -110,7 +116,6 @@ addEventListener('DOMContentLoaded', function () {
         };
 
         timeLine.addEventListener('mouseenter', function (e) {
-            console.log(1);
             document.addEventListener(/Firefox/i.test(navigator.userAgent) ? "wheel" : "mousewheel", handlerMoveTimeLine, {
                 passive: false
             });
@@ -165,7 +170,7 @@ function clearActive(el) {
 
 function addRotate(el, rotate) {
     if (window.innerWidth > 1900) {
-        el.style.cssText = `transform: translate(-70%, -50%) rotate(${-rotate}deg);`;
+        el.style.cssText = `transform: translate(-68%, -50%) rotate(${-rotate}deg);`;
     }
 
     else if (window.innerWidth <= 699) {
@@ -217,8 +222,11 @@ function toggle(el, name, callback) {
         });
     };
 
-    el.classList.add(name + '-leave-active');
-    el.addEventListener(animationend, handlerHide);
+    raf(function() {
+        el.classList.add(name + '-leave-active');
+        el.addEventListener(animationend, handlerHide);
+    });
+
 }
 
 function show(el, name, display) {
